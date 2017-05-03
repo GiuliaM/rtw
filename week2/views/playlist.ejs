@@ -11,20 +11,26 @@
         <h1>Playing now</h1>
         <div class="info">
           <div id="image" class="image">
-            <% body.item.album.images.map(function(obj){%>
-            <img src="<%= obj.url %>" alt="">
+            <% album.images.forEach(function(obj){%>
+                <img src="<%= obj.url %>" alt="">
             <% }) %>
           </div>
           <div class="text">
             <p><strong>Artist:</strong>
-              <% body.item.artists.map(function(obj){ %>
-            <span id="artist"><%= obj.name %></span>
-            <% })%>
+                 <span id="artist">
+                    <% artists.forEach(function(obj, idx){ %>
+                      <% if (artists.length - 1 === idx) { %>
+                        <%= obj.name %>
+                       <% return; } %>
+                      <%= obj.name %>,
+                    <% })%>
+                </span>
             </p>
-            <p><strong>Song: </strong><span id="song"><%= body.item.name %></span></p>
+            <p><strong>Song: </strong><span id="song"><%= name %></span></p>
           </div>
         </div>
     </section>
+
     <section class="chat">
         <section class="users" id="usernameArea">
           <form id="usernameForm">
@@ -56,7 +62,5 @@
     </section>
   </body>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="static/js/index.js">
-
-  </script>
+  <script src="static/js/index.js"></script>
 </html>

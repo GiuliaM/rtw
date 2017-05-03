@@ -4,23 +4,28 @@
   var image = document.getElementById('image');
     var socket = io();
 
-    setInterval(function(){
-      socket.emit('next song', {song: song.innerHTML, artist: artist.innerHTML})
-    }, 2000);
-
     socket.on('update song', function(data){
-      console.log(data.body.item.artists);
-        song.innerHTML = data.body.item.name;
-        data.body.item.artists.map(function(obj) {
-          artist.innerHTML = obj.name;
-        })
-        data.body.item.album.images.map(function(obj) {
-          image.innerHTML = `<img src="${obj.url}" alt="">`;
-          image.classList.add('newsong');
-        })
-    })
+      // data.artists, data.name, data.album;
+      // Replace the song title
+      song.innerHTML = data.name;
 
+      // Replace the album images
+      var images = '';
+      data.album.images.forEach(function(img) {
+        images += `<img src="${img.url}" alt="">`;
+      });
+      image.innerHTML = images;
 
+      // Replace the album artists
+      var artists = '';
+      data.artists.forEach(function(artist, idx) {
+        if (data.artists.length - 1 === idx) {
+          artists += artist.name;
+          return;
+        }
+
+        artists += (artist.name + ', ');
+      });
+      artist.innerHTML = artists;
+    });
   })();
-
-//, album: album.innerHTML
