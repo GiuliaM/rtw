@@ -1,2 +1,1 @@
-# rtw
-Real Time Web
+# Real time Spotify app
