@@ -1,0 +1,158 @@
+img{
+  display: none;
+}
+img:nth-of-type(3) {
+  display: block;
+}
+.newsong img{
+  display: block;
+}
+
+.info {
+  max-width: max-content;
+  padding: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background: #333;
+  color: white;
+  align-items: center;
+}
+
+.text {
+  margin-left: 1em;
+}
+
+
+
+
+/*---------------*/
+
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+h2{
+    margin-top: 0;
+    margin-bottom: 0.2em;
+}
+
+ .onlineUsers, .messageList, .messageForm {
+    margin: 1.5em;
+}
+
+/* username */
+.users {
+    display: flex;
+    background-color: pink;
+    height: 15vh;
+    width: 100%;
+}
+
+.users form {
+    margin: 1.5em;
+    width: 100%;
+}
+
+.users input {
+    font-size: 1em;
+    width: 30%;
+}
+
+/* Online */
+ .onlineUsers h2, .onlineUsers li {
+    color: white;
+}
+
+ .chatArea {
+    display: flex;
+    width: 100%;
+}
+
+.chatForm {
+    background-color: #4D394B;
+    width: 30%;
+    height: 85vh;
+}
+
+ #username{
+    height: 2em;
+    width: 30%;
+    border-style: none;
+    padding: 0;
+    padding-left: 7px;
+}
+
+button{
+    height: 2em;
+}
+
+/* Chat */
+.messageList {
+    height: 70vh;
+    list-style-type: none;
+    margin-left: 0;
+}
+
+.messageList li {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    background-color: lightblue;
+    padding: 0.5em;
+    border-radius: 0.3em;
+}
+
+.messageList li:nth-child(odd){
+    background-color: gainsboro;
+}
+
+.input-message {
+    background-color: #f9f9f9;
+    border-left: 1px solid grey;
+    height: 85vh;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+#message {
+    font-size: 16px;
+    height: 2em;
+    padding-left: 10px;
+    color: #1a1a1a;
+    border: 0;
+    outline: none;
+    width: 80%;
+    background-color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+}
+
+#messageForm{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border: 2px solid lightgrey;
+}
+
+.submitMessage, button {
+    width: 20%;
+    background-color: #93879B;
+    border-style: none;
+    color: white;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.chat{
+    height: 30%;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - RTW</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+  </head>
+  <body>
+    <section>
+        <h1>Playing now</h1>
+        <div class="info">
+          <div id="image" class="image">
+            <% body.item.album.images.map(function(obj){%>
+            <img src="<%= obj.url %>" alt="">
+            <% }) %>
+          </div>
+          <div class="text">
+            <p><strong>Artist:</strong>
+              <% body.item.artists.map(function(obj){ %>
+            <span id="artist"><%= obj.name %></span>
+            <% })%>
+            </p>
+            <p><strong>Song: </strong><span id="song"><%= body.item.name %></span></p>
+          </div>
+        </div>
+    </section>
+    <section class="chat">
+        <section class="users" id="usernameArea">
+          <form id="usernameForm">
+                <h2>Enter username:</h2>
+                <div class="userbar">
+                   <input type="text" id="username" placeholder="Enter username" autocomplete="off"/><button>Send</button>
+               </div>
+           </form>
+        </section>
+
+        <section class="chatArea hide" id="chatArea">
+            <section  class="chatForm" id="chatForm">
+                   <div id="onlineUsers" class="onlineUsers">
+                       <h2>Online users</h2>
+                       <ul id="users">
+                       </ul>
+                   </div>
+            </section>
+
+            <section class="input-message">
+              <ul class="messageList" id="chat">
+                   </ul>
+               <form id="messageForm">
+                    <input type="text" id="message" autocomplete="off" autofocus="true" placeholder="Type a message"/>
+                    <input class="submitMessage" type="submit" value="Send">
+               </form>
+            </section>
+        </section>
+    </section>
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="static/js/index.js">
+
+  </script>
+</html>
