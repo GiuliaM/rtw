@@ -17,9 +17,10 @@ var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
 var redirect_uri = process.env.REDIRECT_URI; // Your redirect uri
 var users = [];
+var connections= [];
 
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'just another secret',
     saveUninitialized: true,
     resave: false
 }));
@@ -124,21 +125,46 @@ app.get('/playlist', function(req, res) { // render the playlist page
   }
 });
 
-//app.get('/chatroom', function(req, res) { // render the playlist page
-//
-//    var profile = {
-//      url: 'https://api.spotify.com/v1/me',
-//      headers: { 'Authorization': 'Bearer ' + app.accessToken },
-//      json: true
-//    }
-//
-//    request.get(profile, function(error, response, body) {
-//      // console.log(app.accessToken);
-////     console.log(body.item);
-//    console.log(body);
-//
-//      res.render('chatroom', {body: body});
+app.get('/chatroom', function(req, res) { // render the chatroom page
+
+    var profile = {
+      url: 'https://api.spotify.com/v1/me',
+      headers: { 'Authorization': 'Bearer ' + req.session.accessToken },
+      json: true
+    }
+
+    request.get(profile, function(error, response, body) {
+      var nickname = body.id;
+    console.log(body);
+
+      res.render('chatroom', {body: body});
+
+    io.on('connection', function(socket){
+      connections.push(socket);
+      console.log('Connected: %s sockets connected', connections.length);
+
+      console.log(profile.id, "dat ben ik");
+
+      socket.on('send message', function(data){
+          io.sockets.emit('new message', {msg: data, user: nickname});
+    });
+
+//    socket.on('new user', function(data, callback){
+//      callback(true);
+//      nickname = data;
+//      users.push(nickname);
+//      updateUsernames();
 //    });
-//
-//})
-//
+
+      // Disconnect
+    socket.on('disconnect', function(data){
+        users.splice(users.indexOf(socket.username), 1);
+        console.log('Disconnected: %s sockets connected', connections.length);
+    });
+
+    function updateUsernames(){
+      io.sockets.emit('get users', users);
+    }
+});
+    });
+});

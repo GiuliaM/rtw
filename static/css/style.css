@@ -23,7 +23,10 @@ img:nth-of-type(3) {
   margin-left: 1em;
 }
 
-
+a {
+  color: white;
+  padding-left: 1em;
+}
 
 
 /*---------------*/
@@ -117,7 +120,7 @@ button{
     background-color: #f9f9f9;
     border-left: 1px solid grey;
     height: 85vh;
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -154,5 +157,6 @@ button{
 }
 
 .chat{
-    height: 30%;
+    width: 100vw;
 }
+

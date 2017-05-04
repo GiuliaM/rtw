@@ -6,6 +6,38 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <h1>Love it</h1>
+    <section class="chat">
+        <section class="users" id="usernameArea">
+          <form id="usernameForm">
+                <h2>Love it</h2>
+<!--
+                <div class="userbar">
+                   <input type="text" id="username" placeholder="Enter username" autocomplete="off"/><button>Send</button>
+               </div>
+-->
+           </form>
+        </section>
+
+        <section class="chatArea hide" id="chatArea">
+            <section  class="chatForm" id="chatForm">
+                   <div id="onlineUsers" class="onlineUsers">
+                       <h2>Online users</h2>
+                       <ul id="users">
+                       </ul>
+                   </div>
+            </section>
+
+            <section class="input-message">
+              <ul class="messageList" id="chat">
+                   </ul>
+               <form id="messageForm">
+                    <input type="text" id="message" autocomplete="off" autofocus="true" placeholder="Type a message"/>
+                    <input class="submitMessage" type="submit" value="Send">
+               </form>
+            </section>
+        </section>
+    </section>
 </body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="static/js/index.js"></script>
 </html>
