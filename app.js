@@ -135,21 +135,23 @@ app.get('/chatroom', function(req, res) { // render the chatroom page
 
     request.get(profile, function(error, response, body) {
       var nickname = "";
-      console.log(body);
+      var nickname = body.display_name;
 
-      if(profile.id === null){
-        var nickname = body.display_name;
-      } else {
-        var nickname = body.id;
-      }
+//      console.log(body);
+
+          if(body.display_name === null){
+            var nickname = body.id;
+          } else {
+            var nickname = body.display_name;
+          }
+      console.log(body.id, "DIT IS HET ID");
+      console.log(body.display_name, "DIT IS DE DISPLAY NAME");
 
       res.render('chatroom', {body: body});
 
     io.on('connection', function(socket){
       connections.push(socket);
       console.log('Connected: %s sockets connected', connections.length);
-
-      console.log(body, "dat ben ik");
 
       socket.on('send message', function(data){
           io.sockets.emit('new message', {msg: data, user: nickname});

@@ -8,21 +8,39 @@ When visiting the website, the user needs to login to spotify and give the app p
 The purpose of this app is to bring music lovers together and make it able for people to share their opinion about music.
 
 ### Wishlist
-- Chat
 - Combine birthdates of artist/icons to the date and a chat
+- Create a sticy scroll for the chat
+
+### To be fixed
+- Username: facebook uses another id
 
 ---
 
 ## Index
 - [Making of](#makingof)
+  ..*[Dependencies](#dependencies)
+  ..*[Spotify api](#spotifyapi)
+  ..*[OAth](#oath)
+  ..*[Socket.io](#socket.io)
 - [Installation](#installation)
 
 ## [Making of](#makingof)
-### Spotify api
-### OAth
+
+### [Dependencies](#dependencies)
+- [Request](https://www.npmjs.com/package/request)
+- [Querystring](https://www.npmjs.com/package/querystring)
+- [Dot env](https://www.npmjs.com/package/dotenv)
+- [EJS](https://www.npmjs.com/package/ejs)
+- [Express](https://www.npmjs.com/package/express)
+- [Express-session](https://www.npmjs.com/package/express-session)
+- [socket.io](https://www.npmjs.com/package/socket.io)
+
+### [Spotify api](#spotifyapi)
+
+### [OAth](#oath)
 I used express-session to create an access token that only last a session. This way every user has his own session id and can see their own spotify.
 
-### Socket.io
+### [Socket.io](#socket.io)
 
 ## [Installation](#installation)
 First clone the repo:

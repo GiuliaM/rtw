@@ -102,6 +102,7 @@ button{
     height: 70vh;
     list-style-type: none;
     margin-left: 0;
+    overflow: auto;
 }
 
 .messageList li {

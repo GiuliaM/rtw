@@ -71,6 +71,6 @@
       console.log(data.user);
       var messageContent = document.createTextNode(data.msg);
       newMessage.append(messageSender, ': ' , messageContent);
-      chat.append(newMessage)
+      chat.append(newMessage);
     });
   })();
