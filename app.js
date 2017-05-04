@@ -134,8 +134,8 @@ app.get('/chatroom', function(req, res) { // render the chatroom page
     }
 
     request.get(profile, function(error, response, body) {
+      var nickname = "";
       var nickname = body.id;
-    console.log(body);
 
       res.render('chatroom', {body: body});
 
@@ -149,12 +149,12 @@ app.get('/chatroom', function(req, res) { // render the chatroom page
           io.sockets.emit('new message', {msg: data, user: nickname});
     });
 
-//    socket.on('new user', function(data, callback){
-//      callback(true);
-//      nickname = data;
-//      users.push(nickname);
-//      updateUsernames();
-//    });
+    socket.on('new user', function(data, callback){
+      callback(true);
+      nickname = data;
+      users.push(nickname);
+      updateUsernames();
+    });
 
       // Disconnect
     socket.on('disconnect', function(data){
