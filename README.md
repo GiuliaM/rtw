@@ -10,9 +10,8 @@ The purpose of this app is to bring music lovers together and make it able for p
 ### Wishlist
 - Combine birthdates of artist/icons to the date and a chat
 - Create a sticy scroll for the chat
-
-### To be fixed
-- Username: facebook uses another id
+- Make a dynamic link
+- Add an database for the chat messages
 
 ---
 
@@ -36,11 +35,31 @@ The purpose of this app is to bring music lovers together and make it able for p
 - [socket.io](https://www.npmjs.com/package/socket.io)
 
 ### [Spotify api](#spotifyapi)
+I used the [spotify api](https://spotichat.herokuapp.com) to gain access to the spotify accounts and to use feautures like current song.
 
 ### [OAth](#oath)
 I used express-session to create an access token that only last a session. This way every user has his own session id and can see their own spotify.
 
+```javascript
+ request.post(authOptions, function(error, response, body) {
+    req.session.accessToken = body.access_token;
+    req.session.refreshToken = body.refresh_token;
+    res.redirect('/playlist'); // redirect to playlist.ejs
+  });
+```
+
 ### [Socket.io](#socket.io)
+I used Socket.io for the real time connection. For example fot the current song and for sending messages.
+
+```javascript
+io.on('connection', function(socket){
+      connections.push(socket);
+      console.log('Connected: %s sockets connected', connections.length);
+
+      socket.on('send message', function(data){
+          io.sockets.emit('new message', {msg: data, user: nickname});
+    });
+```
 
 ## [Installation](#installation)
 First clone the repo:
