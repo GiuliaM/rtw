@@ -135,7 +135,13 @@ app.get('/chatroom', function(req, res) { // render the chatroom page
 
     request.get(profile, function(error, response, body) {
       var nickname = "";
-      var nickname = body.id;
+      console.log(body);
+
+      if(profile.id === null){
+        var nickname = body.display_name;
+      } else {
+        var nickname = body.id;
+      }
 
       res.render('chatroom', {body: body});
 
@@ -143,7 +149,7 @@ app.get('/chatroom', function(req, res) { // render the chatroom page
       connections.push(socket);
       console.log('Connected: %s sockets connected', connections.length);
 
-      console.log(profile.id, "dat ben ik");
+      console.log(body, "dat ben ik");
 
       socket.on('send message', function(data){
           io.sockets.emit('new message', {msg: data, user: nickname});

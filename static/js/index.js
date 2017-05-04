@@ -41,16 +41,16 @@
     var usernameArea = document.getElementById('usernameArea');
     var users = document.getElementById('users');
 
-    usernameForm.addEventListener('submit', function() {
-      event.preventDefault();
-      socket.emit('new user', username.value, function(data){
-        if(data){
-          usernameArea.classList.add('hide');
-          chatArea.classList.remove('hide');
-        };
-      });
-      username.value = '';
-    });
+//    usernameForm.addEventListener('submit', function() {
+//      event.preventDefault();
+//      socket.emit('new user', username.value, function(data){
+//        if(data){
+//          usernameArea.classList.add('hide');
+//          chatArea.classList.remove('hide');
+//        };
+//      });
+//      username.value = '';
+//    });
 
     socket.on('get users', function(data) {
       var html = ''; // clear html
