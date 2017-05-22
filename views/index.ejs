@@ -1,23 +1,24 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Spotify real time app</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
 
-  <body>
-    <div class="container">
-      <div id="login">
-        <h1>See what's playing:</h1>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
-      </div>
-      <div id="loggedin">
-        <div id="user-profile">
-        </div>
-        <div id="oauth">
-        </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
-      </div>
-    </div>
-  </body>
+    <form method="post" action="/">
+        <h2>Search a song</h2>
+        <input name="searchQuery" type="search">
+        <button type="submit">Search</button>
+    </form>
+
+    <% if (items.length > 0) { %>
+    <ul>
+        <% items.forEach(function(track) { %>
+        <li><a href="/chat/<%= track.id %>"><%= track.artists[0].name %> — <%= track.name %></a></li>
+        <% }) %>
+    </ul>
+    <% } %>
+
+</body>
 </html>
