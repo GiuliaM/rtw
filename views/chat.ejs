@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <img src="<%= track.album.images[1].url %>">
+        <p><%= track.artists[0].name %></p>
+        <p><%= track.name %></p>
+    </header>
+
+    <main>
+        <form method="post">
+            <input name="sendMessage" type="text">
+               <button type="submit">Send</button>
+        </form>
+    </main>
+
+    <aside>
+        <form method="post">
+            <input name="username" type="text">
+               <button type="submit">OK</button>
+        </form>
+    </aside>
+</body>
+</html>
