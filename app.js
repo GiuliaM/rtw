@@ -8,12 +8,25 @@ var app = express();
 
 /*
 {
-    [id]: {
+    [userID]: {
         name: String
     }
 }
 */
 var users = {};
+/*
+{
+    [trackID]: {
+        activeUsers: [String],
+        messages: [{
+            date: Date,
+            user: String,
+            message: String
+        }]
+    }
+}
+*/
+var chatrooms = {};
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -31,6 +44,8 @@ app.use(session({
     resave: false
 }));
 
+//https://expressjs.com/en/guide/using-middleware.html
+//checks if there is a userID in session, if not, create one
 app.use(function(req, res, next) {
     if(req.session.userID === undefined){
         // generate id for new user
@@ -72,9 +87,25 @@ app.post('/', function(req, res) {
         });
 });
 
+//Checks if the trackID already exists in chatrooms, if not create one
+function checkIfChatroomExists(req, res, next) {
+    var trackID = req.params.trackID;
+
+    if(chatrooms[trackID] === undefined) {
+        chatrooms[trackID] = {
+            activeUsers: [],
+            messages: []
+        };
+    }
+
+    next();
+}
+
 //Make a dynamic url for the chats
-app.get('/chat/:trackID', function(req, res) {
-    var apiUrl = 'https://api.spotify.com/v1/tracks/' + req.params.trackID;
+app.get('/chat/:trackID', checkIfChatroomExists, function(req, res) {
+    var trackID = req.params.trackID;
+    var apiUrl = 'https://api.spotify.com/v1/tracks/' + trackID;
+
     request
         .get(apiUrl)
         .end(function(err, apiResponse) {
@@ -84,10 +115,42 @@ app.get('/chat/:trackID', function(req, res) {
             }
 
             res.render('chat', {
-                track: apiResponse.body
+                track: apiResponse.body,
+                userID: req.session.userID,
+                //Define that username is users[userID].name and return the array message with the updated name
+                messages: chatrooms[trackID].messages.map(function(message) {
+                    var userID = message.userID;
+                    var username = users[userID].name;
+                    message.username = username;
+                    return message;
+                })
             });
         });
 
+});
+
+//Receive a message from the message form
+app.post('/chat/:trackID', checkIfChatroomExists, function(req, res) {
+    var trackID = req.params.trackID;
+
+    chatrooms[trackID].messages.push({
+        userID: req.body.userID,
+        message: req.body.message,
+        date: new Date()
+    });
+
+    res.redirect('/chat/' + trackID);
+});
+
+//Receive request to change username
+app.post('/change-username', function(req, res) {
+    var userID = req.body.userID;
+    var newUsername = req.body.username;
+
+    users[userID].name = newUsername;
+
+    // Redirect back to where the user came from
+    res.redirect(req.header('Referer') || '/');
 });
 
 app.listen(3000, function() {

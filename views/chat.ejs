@@ -12,16 +12,23 @@
     </header>
 
     <main>
+       <ul>
+        <% messages.forEach(function(message){ %>
+        <li><%= message.date %> <%= message.username %> <%= message.message %></li>
+        <% }) %>
+       </ul>
         <form method="post">
-            <input name="sendMessage" type="text">
-               <button type="submit">Send</button>
+            <input name="message" type="text">
+            <input name="userID" type="hidden" value="<%= userID %>">
+            <button type="submit">Send</button>
         </form>
     </main>
 
     <aside>
-        <form method="post">
+        <form method="post" action="/change-username">
             <input name="username" type="text">
-               <button type="submit">OK</button>
+            <input name="userID" type="hidden" value="<%= userID %>">
+            <button type="submit">OK</button>
         </form>
     </aside>
 </body>
