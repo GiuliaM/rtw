@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link href="/static/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet">
 </head>
-<body>
+<body class="index">
 
     <form method="post" action="/">
         <h2>Search a song</h2>
-        <input name="searchQuery" type="search">
+        <input name="searchQuery" type="search" placeholder="Type a song here">
         <button type="submit">Search</button>
     </form>
-<!--
-    <audio controls>
-        <source src="https://p.scdn.co/mp3-preview/bd767c697e4e77c4bfd1c1b2da90fd5d386f025f?cid=null" type="audio/mp3">
-    </audio>
--->
 
     <% if (items.length > 0) { %>
     <ul>
+       <h2>Click a title to chat</h2>
         <% items.forEach(function(track) { %>
         <li><a href="/chat/<%= track.id %>"><%= track.artists[0].name %> — <%= track.name %></a></li>
         <% }) %>

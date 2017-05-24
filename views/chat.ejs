@@ -2,34 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Chat</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/index.js" defer></script>
+    <style>
+        :root {
+            --background-color: rgb(
+                <%= colorPalette.backgroundColor[0] %>,
+                <%= colorPalette.backgroundColor[1] %>,
+                <%= colorPalette.backgroundColor[2] %>
+            );
+            --color: rgb(
+                <%= colorPalette.color[0] %>,
+                <%= colorPalette.color[1] %>,
+                <%= colorPalette.color[2] %>
+            );
+        }
+    </style>
 </head>
 <body>
     <header>
         <img src="<%= track.album.images[1].url %>">
-        <p><%= track.artists[0].name %></p>
-        <p><%= track.name %></p>
+        <div class="trackInfo">
+            <h1><%= track.artists[0].name %></h1>
+            <p><%= track.name %></p>
+            <audio controls>
+                <source src="<%= track.preview_url %>" type="audio/mp3">
+            </audio>
+            <a href="<%= track.album.external_urls.spotify %>">Check this song on Spotify!</a>
+        </div>
     </header>
 
     <main>
-       <ul>
+       <ul id="chatwindow">
+           <br>
         <% messages.forEach(function(message){ %>
-        <li><%= message.date %> <%= message.username %> <%= message.message %></li>
+        <li data-userID="<%= message.userID %>" class="<%= message.userID === userID ? 'currentUser' : ''%>">
+            <span><%= message.username %></span>
+            <%= message.message %>
+        </li>
         <% }) %>
-       </ul>
-        <form method="post">
-            <input name="message" type="text">
-            <input name="userID" type="hidden" value="<%= userID %>">
-            <button type="submit">Send</button>
-        </form>
+        </ul>
+        <section class="forms">
+           <label class="username"> Enter username:
+                <form id="usernameForm" method="post" action="/change-username">
+                    <input name="username" type="text" placeholder="Enter username">
+                    <input name="userID" type="hidden" value="<%= userID %>">
+                    <button type="submit">OK</button>
+                </form>
+            </label>
+            <label class="message"> Enter message:
+                <form id="messageForm" method="post">
+                    <input name="message" type="text" placeholder="Enter text">
+                    <input name="userID" type="hidden" value="<%= userID %>">
+                    <input name="trackID" type="hidden" value="<%= trackID %>">
+                    <button type="submit">Send</button>
+                </form>
+            </label>
+        </section>
     </main>
 
-    <aside>
-        <form method="post" action="/change-username">
-            <input name="username" type="text">
-            <input name="userID" type="hidden" value="<%= userID %>">
-            <button type="submit">OK</button>
-        </form>
-    </aside>
+    <div id="banner">
+        <p>You are currently offline, please check your internet connection</p>
+    </div>
+
+    <script>var currentUsername = <%- JSON.stringify(username); %>;</script>
 </body>
 </html>
