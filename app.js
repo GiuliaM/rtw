@@ -1,10 +1,18 @@
+// Require Node Modules
+// ----------------------------------------------------------------------------------------
+var http = require('http');
 var express = require('express'); // Express web server framework
 var bodyParser = require('body-parser'); // parses the body of an http-request to JSON
 var request = require('superagent'); // to make a http request
 var session = require('express-session');
 var shortid = require('shortid'); //Produces an id
+var socket= require('socket.io');
+var vibrant = require('node-vibrant'); // Color extracter
 
-var app = express();
+
+
+// "Databases"
+// ----------------------------------------------------------------------------------------
 
 /*
 {
@@ -27,6 +35,12 @@ var users = {};
 }
 */
 var chatrooms = {};
+
+
+// Express Routes
+// ----------------------------------------------------------------------------------------
+
+var app = express();
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -114,17 +128,38 @@ app.get('/chat/:trackID', checkIfChatroomExists, function(req, res) {
                 return res.send(err);
             }
 
-            res.render('chat', {
-                track: apiResponse.body,
-                userID: req.session.userID,
-                //Define that username is users[userID].name and return the array message with the updated name
-                messages: chatrooms[trackID].messages.map(function(message) {
-                    var userID = message.userID;
-                    var username = users[userID].name;
-                    message.username = username;
-                    return message;
-                })
-            });
+            vibrant
+                .from(apiResponse.body.album.images[1].url)
+                .getPalette(function(err, palette) {
+                    // Default colors
+                    var colorPalette = {
+                        backgroundColor: [255, 255, 255],
+                        color: [0, 0, 0]
+                    }
+
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        colorPalette.backgroundColor = palette.DarkMuted['_rgb'];
+                        colorPalette.color = palette.Vibrant['_rgb'];
+                    }
+
+                    res.render('chat', {
+                        colorPalette: colorPalette,
+                        track: apiResponse.body,
+                        trackID: trackID,
+                        username: users[req.session.userID].name,
+                        userID: req.session.userID,
+                        //Define that username is users[userID].name and return the array message with the updated name
+                        //Add username from users object to each message
+                        messages: chatrooms[trackID].messages.map(function(message) {
+                            var userID = message.userID;
+                            var username = users[userID].name;
+                            message.username = username;
+                            return message;
+                        })
+                    });
+                });
         });
 
 });
@@ -153,6 +188,55 @@ app.post('/change-username', function(req, res) {
     res.redirect(req.header('Referer') || '/');
 });
 
-app.listen(3000, function() {
+var server = http.createServer(app);
+
+
+// Socket.io Events
+// ----------------------------------------------------------------------------------------
+
+var io = socket(server);
+
+io.on('connection', function(socket) {
+
+    // Receive a message from the message form
+    socket.on('message', function(messageData) { // [2]
+        var trackID = messageData.trackID;
+        var message = messageData.message;
+        var userID = messageData.userID;
+        var username = users[userID].name;
+
+        var message = {
+            userID: userID,
+            message: message,
+            date: new Date()
+        };
+
+        // Update "database"
+        chatrooms[trackID].messages.push(message);
+
+        // Add the username to the message before we send it to the other clients
+        message.username = username;
+
+        // Send message to all clients without sender
+        socket.broadcast.emit('message', message); // [3]
+    });
+
+    socket.on('changeUsername', function(usernameData) {
+        var userID = usernameData.userID;
+        var newUsername = usernameData.username;
+
+        // Update "database"
+        users[userID].name = newUsername;
+
+        // Send updated username to all other clients
+        socket.broadcast.emit('changeUsername', usernameData);
+    });
+});
+
+
+// Listen to server
+// ----------------------------------------------------------------------------------------
+
+server.listen(3000, function() {
     console.log('server listening on port 3000');
 });
