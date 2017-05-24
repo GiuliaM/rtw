@@ -17,9 +17,10 @@
     "ejs": "^2.5.6",
     "express": "^4.15.2",
     "express-session": "^1.15.3",
+    "node-vibrant": "^3.0.0-alpha.2",
     "request": "^2.81.0",
     "shortid": "^2.2.8",
-    "socket.io": "^1.7.3",
+    "socket.io": "^1.7.4",
     "superagent": "^3.5.2"
   },
   "devDependencies": {
