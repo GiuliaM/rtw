@@ -28,8 +28,24 @@ li {
     margin-bottom: 0.5em;
 }
 
+#banner.visible {
+    display: block;
+    position: absolute;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
 #banner {
     display: none;
+}
+
+#banner p {
+    background-color: red;
+    height: 10em;
+    padding: 1em;
+    font-size: 2em;
 }
 
 form {
@@ -146,6 +162,13 @@ span {
     font-weight: 600;
 }
 
+.hideBanner {
+    visibility: none;
+}
+
+.showBanner {
+    visibility: visible;
+}
 
 
 /* forms in chat*/

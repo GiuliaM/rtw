@@ -103,4 +103,21 @@
         updateUsername(userID, newUsername);
     });
 
+    // On new message from server
+    // ------------------------------------------------------------------------
+
+    var connection = document.querySelector('#banner');
+
+    socket.on('connect', function(){
+        console.log("You are connected");
+
+
+        connection.removeAttribute("class","visible");
+
+    })
+
+    socket.on('disconnect', function() {
+        connection.setAttribute("class","visible");
+    })
+
 }());
