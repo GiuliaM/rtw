@@ -238,4 +238,4 @@ io.on('connection', function(socket) {
 // Listen to server
 // ----------------------------------------------------------------------------------------
 
-server.listen(process.env.PORT || 3000, process.env.HOST || '0.0.0.0' );
+server.listen(process.env.PORT || 3000);
