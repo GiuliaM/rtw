@@ -237,6 +237,6 @@ io.on('connection', function(socket) {
 // Listen to server
 // ----------------------------------------------------------------------------------------
 
-server.listen(process.env.PORT || 3000, function() {
+server.listen(3005, function() {
     console.log('server listening on port 3000');
 });
