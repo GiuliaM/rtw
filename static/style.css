@@ -1,0 +1,222 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+    background-color: #eef4ff;
+}
+
+main {
+    width: 80vw;
+}
+
+input[type="text"], input[type="search"] {
+    font-size: 1em;
+    padding: 0.5em;
+    font-family: inherit;
+}
+
+li {
+    padding-top: 0.5em;
+    list-style: none;
+    padding-bottom: 0.5em;
+    padding-left: 1em;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5em;
+}
+
+#banner {
+    display: none;
+}
+
+form {
+    font-size: 1em;
+}
+
+button {
+    font-size: 1em;
+    font-family: inherit;
+}
+
+/* index */
+.index li {
+    margin-bottom: 0;
+}
+
+.index form {
+    padding: 1em;
+    width: 30vw;
+    background-color: cornflowerblue;
+    height: 100vh;
+}
+
+body .index {
+    background-color: #eef4ff;
+}
+
+.index ul {
+    padding-left: 1em;
+}
+
+/* chat */
+header {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    background-color: var(--background-color);
+    color: var(--color);
+}
+
+header p {
+    margin: 0;
+    margin-bottom: 2em;
+}
+
+header a {
+    color: var(--color);
+    font-size: inherit;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+#chatwindow {
+    height: 80vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+/* header music */
+.trackInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+audio {
+    width: 80%;
+    margin-bottom: 2em;
+    color: #fff;
+}
+
+img {
+    padding-bottom: 2em;
+}
+
+/* Styling Chat messages */
+.currentUser {
+    align-self: flex-end;
+    padding-right: 1.5em;
+    background-color: lightgreen;
+    border-radius: 2em;
+    align-items: flex-end;
+    max-width: 20em;
+}
+
+.otherUser {
+    align-self: flex-end;
+    padding-right: 1.5em;
+    background-color: paleturquoise;
+    border-radius: 2em;
+    align-items: flex-end;
+    max-width: 20em;
+}
+
+span {
+    font-weight: 600;
+}
+
+
+
+/* forms in chat*/
+label {
+    font-size: 1em;
+    color: var(--color);
+    justify-content: flex-start;
+    padding-left: 2em;
+    padding-top: 1em;
+}
+
+.forms {
+    background-color: var(--background-color);
+    display: flex;
+    height: 20vh;
+}
+
+.forms input[type="text"] {
+    width: 70%;
+}
+
+form#usernameForm {
+    display: flex;
+    height: 2.5em;
+    align-self: center;
+    justify-content: flex-start;
+    margin-top: 0.5em;
+}
+
+.username {
+    width: 30%;
+}
+
+.message {
+    width: 70%;
+}
+
+form#messageForm {
+    display: flex;
+    height: 2.5em;
+    align-self: center;
+    justify-content: flex-start;
+    margin-top: 0.5em;
+}
+
+audio::-webkit-media-controls-panel {
+    background-color: var(--color);
+}
+
+audio::-webkit-media-controls-timeline {
+    background-color: var(--background-color);
+}
+
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+    color: var(--color);
+}
+
+/*
+audio::-webkit-media-controls-timeline-container,  {
+    background-color: hotpink;
+    color: greenyellow;
+}
+
+
+audio::-webkit-media-controls {
+    color: aqua;
+    background-color: aquamarine;
+}
+
+
+audio::-webkit-media-controls-mute-button,
+audio::-webkit-media-controls-play-button {
+    color: pink;
+}
+*/
+
+
+
+/*
+audio::-webkit-media-controls-fullscreen-button {
+    color: aquamarine;
+    background-color: orchid;
+}
+*/
