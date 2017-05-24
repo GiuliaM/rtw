@@ -4,7 +4,7 @@
   "description": "Chat about the song you are listening to.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app",
+    "start": "micro index",
     "expose": "ngrok http 8888"
   },
   "author": "GM",
@@ -17,6 +17,7 @@
     "ejs": "^2.5.6",
     "express": "^4.15.2",
     "express-session": "^1.15.3",
+    "micro": "latest",
     "node-vibrant": "^3.0.0-alpha.2",
     "request": "^2.81.0",
     "shortid": "^2.2.8",
