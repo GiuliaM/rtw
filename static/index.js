@@ -1,9 +1,6 @@
 (function() {
     var socket = io();
 
-    // currentUsername is rendered inline in EJS
-    var username = currentUsername;
-
     var chatWindow = document.querySelector('#chatwindow');
 
     // Render a single message to the DOM
@@ -39,7 +36,7 @@
         var message = messageForm.querySelector('input[name="message"]').value;
 
         // Render message to DOM
-        renderMessageToDOM(true, userID, username, message);
+        renderMessageToDOM(true, userID, currentUsername, message);
 
         // Send message to server
         socket.emit('message', { // [1]
@@ -65,6 +62,8 @@
         // Get values from form
         var userID = usernameForm.querySelector('input[name="userID"]').value;
         var username = usernameForm.querySelector('input[name="username"]').value;
+
+        currentUsername = username;
 
         // Send message to server
         socket.emit('changeUsername', {
