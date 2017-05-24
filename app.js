@@ -1,6 +1,7 @@
 // Require Node Modules
 // ----------------------------------------------------------------------------------------
 var http = require('http');
+require('dotenv').config();
 var express = require('express'); // Express web server framework
 var bodyParser = require('body-parser'); // parses the body of an http-request to JSON
 var request = require('superagent'); // to make a http request
