@@ -22,7 +22,7 @@
         }
     </style>
 </head>
-<body>
+<body class="chat">
     <header>
         <img src="<%= track.album.images[1].url %>">
         <div class="trackInfo">
@@ -33,6 +33,9 @@
             </audio>
             <a href="<%= track.album.external_urls.spotify %>">Check this song on Spotify!</a>
         </div>
+        <button class="goBack">
+            <a href="/" class="overview"> &#8592; Go back</a>
+        </button>
     </header>
 
     <main>

@@ -112,6 +112,17 @@ img {
     padding-bottom: 2em;
 }
 
+.goBack {
+    margin-top: 2em;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    background: none;
+    border: 3px solid var(--color);;
+    font-size: 1.5em;
+}
+
 /* Styling Chat messages */
 .currentUser {
     align-self: flex-end;
@@ -122,10 +133,10 @@ img {
     max-width: 20em;
 }
 
-.otherUser {
-    align-self: flex-end;
+.chat li:not(.currentUser) {
+    align-self: flex-start;
     padding-right: 1.5em;
-    background-color: paleturquoise;
+    background-color: lightgrey;
     border-radius: 2em;
     align-items: flex-end;
     max-width: 20em;
