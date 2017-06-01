@@ -1,16 +1,41 @@
 // Require Node Modules
 // ----------------------------------------------------------------------------------------
 var http = require('http');
-require('dotenv').config();
+var url = require('url');
 var express = require('express'); // Express web server framework
 var bodyParser = require('body-parser'); // parses the body of an http-request to JSON
-var request = require('superagent'); // to make a http request
 var session = require('express-session');
 var shortid = require('shortid'); //Produces an id
 var socket= require('socket.io');
 var vibrant = require('node-vibrant'); // Color extracter
+var dotenv = require('dotenv');
+var base64 = require('base-64');
+var axios = require('axios'); // to make a http request
 
+dotenv.config();
 
+var accessToken = '';
+
+// Get spotify accessToken on startup
+axios({
+  method: 'post',
+  url: 'https://accounts.spotify.com/api/token',
+  data: 'grant_type=client_credentials',
+  headers: {
+    Authorization: 'Basic ' + base64.encode(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET)
+  }
+})
+  .then(function(res) {
+    if (res.data.access_token) {
+      accessToken = res.data.access_token;
+    } else {
+      throw Error('Spoofy heeft er geen zin in.');
+    }
+
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
 
 // "Databases"
 // ----------------------------------------------------------------------------------------
@@ -88,18 +113,21 @@ app.get('/', function(req, res) {
 //clientside posts searchQuery to server and sends request to spotify. After that render this data in index.
 app.post('/', function(req, res) {
     var apiUrl = 'https://api.spotify.com/v1/search?type=track&q=' + req.body.searchQuery;
-    request
-        .get(apiUrl)
-        .end(function(err, apiResponse) {
-            if(err) {
-                console.log(err);
-                return res.send(err);
-            }
 
-            res.render('index', {
-                items: apiResponse.body.tracks.items
-            });
+    axios
+      .get(apiUrl, {
+        headers: {
+          Authorization: 'Bearer ' + accessToken
+        }
+      })
+      .then(function(apiResponse) {
+        return res.render('index', {
+          items: apiResponse.data.tracks.items
         });
+      })
+      .catch(function(err) {
+        return res.send(err);
+      });
 });
 
 //Checks if the trackID already exists in chatrooms, if not create one
@@ -121,48 +149,49 @@ app.get('/chat/:trackID', checkIfChatroomExists, function(req, res) {
     var trackID = req.params.trackID;
     var apiUrl = 'https://api.spotify.com/v1/tracks/' + trackID;
 
-    request
-        .get(apiUrl)
-        .end(function(err, apiResponse) {
-            if(err) {
-                console.log(err);
-                return res.send(err);
-            }
+    axios
+      .get(apiUrl, {
+        headers: {
+          Authorization: 'Bearer ' + accessToken
+        }
+      })
+      .then(function(apiResponse) {
+        return vibrant
+            .from(apiResponse.data.album.images[1].url)
+            .getPalette(function(err, palette) {
+                // Default colors
+                var colorPalette = {
+                    backgroundColor: [255, 255, 255],
+                    color: [0, 0, 0]
+                }
 
-            vibrant
-                .from(apiResponse.body.album.images[1].url)
-                .getPalette(function(err, palette) {
-                    // Default colors
-                    var colorPalette = {
-                        backgroundColor: [255, 255, 255],
-                        color: [0, 0, 0]
-                    }
+                if (err) {
+                    console.log(err);
+                } else {
+                    colorPalette.backgroundColor = palette.DarkMuted['_rgb'];
+                    colorPalette.color = palette.Vibrant['_rgb'];
+                }
 
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        colorPalette.backgroundColor = palette.DarkMuted['_rgb'];
-                        colorPalette.color = palette.Vibrant['_rgb'];
-                    }
-
-                    res.render('chat', {
-                        colorPalette: colorPalette,
-                        track: apiResponse.body,
-                        trackID: trackID,
-                        username: users[req.session.userID].name,
-                        userID: req.session.userID,
-                        //Define that username is users[userID].name and return the array message with the updated name
-                        //Add username from users object to each message
-                        messages: chatrooms[trackID].messages.map(function(message) {
-                            var userID = message.userID;
-                            var username = users[userID].name;
-                            message.username = username;
-                            return message;
-                        })
-                    });
+                res.render('chat', {
+                    colorPalette: colorPalette,
+                    track: apiResponse.data,
+                    trackID: trackID,
+                    username: users[req.session.userID].name,
+                    userID: req.session.userID,
+                    //Define that username is users[userID].name and return the array message with the updated name
+                    //Add username from users object to each message
+                    messages: chatrooms[trackID].messages.map(function(message) {
+                        var userID = message.userID;
+                        var username = users[userID].name;
+                        message.username = username;
+                        return message;
+                    })
                 });
-        });
-
+            });
+      })
+      .catch(function(err) {
+        return res.send(err);
+      });
 });
 
 //Receive a message from the message form
