@@ -3,6 +3,8 @@
 ## Spotichat
 With this app you can search a song from your favorite artist. After finding the song you were looking for, you can click on the song and it will send you to a chatroom. Here you can live chat with other users about the song.
 
+[demo](https://spotichat.herokuapp.com)
+
 ### Wishlist
 - Combine birthdates of artist/icons to the currentdate on the homepage and link that to a chat
 - Create a sticy scroll for the chat
